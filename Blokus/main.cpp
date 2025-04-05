@@ -1,4 +1,3 @@
-#include <filesystem>
 #include <iostream>
 #include <memory>
 #include <SFML/Graphics.hpp>
@@ -8,12 +7,6 @@ using std::string;
 const string QUIT_TEXT = "Quit";
 const string HELVETICA_PATH = "../include/font/helvetica-255/Helvetica.ttf";
 const string PROJECT_NAME = "Blokus";
-
-
-// Header content goes here
-inline bool bLoadFont(sf::Font& font, const string& fontPath);
-sf::Text getQuitButton(sf::Font& font);
-void pollEvents(const std::unique_ptr<sf::RenderWindow>& window, sf::Text& quitButton);
 
 
 inline bool bLoadFont(sf::Font &font, const string &fontPath) {
