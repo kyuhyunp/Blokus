@@ -7,16 +7,13 @@
 
 class Scene {
 public:
-	Scene(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr);
+	Scene();
 	virtual void update(const sf::Event& event);
 	virtual void draw();
 	void draw(const sf::Drawable& drawable);
 	
 
 private:
-	// Common Resources
-	const sf::Font& mFont;
-	const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
 
 	// Resource access
 	unsigned int getHeight() const;

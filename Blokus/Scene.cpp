@@ -2,18 +2,16 @@
 
 
 
-Scene::Scene(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr)
-	: mFont(font), mWindowPtr(windowPtr)
-{ 
+Scene::Scene() { 
 	resize();
 }
 
 unsigned int Scene::getHeight() const {
-	return mWindowPtr->getSize().y;
+	return ResourceManager::getWindowPtr()->getSize().y;
 }
 
 void Scene::resize() {
-	Sidebar::getInstance(mFont, mWindowPtr).resize();
+	Sidebar::getInstance().resize();
 }
 
 void Scene::update(const sf::Event& event) {
@@ -23,23 +21,24 @@ void Scene::update(const sf::Event& event) {
 }
 
 void Scene::draw() {
-	Sidebar::getInstance(mFont, mWindowPtr).draw();	
+	Sidebar::getInstance().draw();	
 }
 
 void Scene::draw(const sf::Drawable &drawable) {
-	mWindowPtr->draw(drawable);
+	ResourceManager::getWindowPtr()->draw(drawable);
 }
 
 void Scene::handleWindowClosure(const sf::Event& event) {
+	const auto& windowPtr = ResourceManager::getWindowPtr();
 	// Handle Close button
 	if (event.is<sf::Event::Closed>()) {
-		mWindowPtr->close();
+		windowPtr->close();
 	}
 
 	// Handle Esc key pressed
 	if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
 		if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
-			mWindowPtr->close();
+			windowPtr->close();
 		}
 	}
 
@@ -50,8 +49,8 @@ void Scene::handleWindowClosure(const sf::Event& event) {
 		}
 
 		const auto mousePos = SFMLUtils::convertToVector2f(mousePressed->position); 
-		if (Sidebar::getInstance(mFont, mWindowPtr).isWithinQuitButton(mousePos)) {
-			mWindowPtr->close();
+		if (Sidebar::getInstance().isWithinQuitButton(mousePos)) {
+			windowPtr->close();
 		}
 	}
 }
@@ -61,11 +60,11 @@ void Scene::handleHoverEffect(const sf::Event& event) {
 	if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>()) {
 		const auto mousePos = SFMLUtils::convertToVector2f(mouseMoved->position);
 
-		const auto cursor = Sidebar::getInstance(mFont, mWindowPtr).isWithinQuitButton(mousePos) ?
+		const auto cursor = Sidebar::getInstance().isWithinQuitButton(mousePos) ?
 			sf::Cursor::createFromSystem(sf::Cursor::Type::Hand).value() :
 			sf::Cursor::createFromSystem(sf::Cursor::Type::Arrow).value();
 
-		mWindowPtr->setMouseCursor(cursor);
+		ResourceManager::getWindowPtr()->setMouseCursor(cursor);
 	}
 }
 
@@ -77,7 +76,7 @@ void Scene::handleResizedWindow(const sf::Event& event) {
 			{ 0.0f, 0.0f },
 			{ static_cast<float>(resized->size.x), static_cast<float>(resized->size.y) }
 		);
-		mWindowPtr->setView(sf::View(visibleArea));
+		ResourceManager::getWindowPtr()->setView(sf::View(visibleArea));
 	}
 }
 

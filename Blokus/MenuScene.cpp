@@ -1,7 +1,6 @@
 #include "MenuScene.h"
 
-MenuScene::MenuScene(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr) 
-	: Scene(font, windowPtr) {}
+MenuScene::MenuScene() : Scene() {}
 
 void MenuScene::draw() {
 	Scene::draw();

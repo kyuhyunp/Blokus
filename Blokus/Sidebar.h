@@ -2,12 +2,13 @@
 #define SIDEBAR_H 
 
 #include <SFML/Graphics.hpp>
+#include "ResourceManager.h"
 
 class Sidebar {
 public:
 	// Static method to get the instance
-	static Sidebar& getInstance(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr) {
-		static Sidebar instance(font, windowPtr);
+	static Sidebar& getInstance() {
+		static Sidebar instance;
 		return instance;
 	}
 
@@ -25,10 +26,6 @@ private:
 	const std::string SETTINGS_TEXT = "Settings";
 	const std::string QUIT_TEXT = "Quit";
 
-	// Common resources
-	const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
-	const sf::Font& mFont;
-
 	// Member variables
 	sf::Text mBlokusButton;
 	sf::Text mSettingsButton;
@@ -36,7 +33,7 @@ private:
 	sf::RectangleShape mBorder;
 
 	// Private constructor
-	Sidebar(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr);
+	Sidebar();
 
 	// Delete copy constructor and assignment operator
 	Sidebar(const Sidebar&) = delete;
