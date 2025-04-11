@@ -2,11 +2,10 @@
 
 
 
-Sidebar::Sidebar(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr)
-	: mFont(font), mWindowPtr(windowPtr),
-	mBlokusButton(font, BLOKUS_TEXT, TEXT_SIZE), 
-	mSettingsButton(font, SETTINGS_TEXT, TEXT_SIZE), 
-	mQuitButton(font, QUIT_TEXT, TEXT_SIZE) 
+Sidebar::Sidebar()
+	: mBlokusButton(ResourceManager::getFont(), BLOKUS_TEXT, TEXT_SIZE),
+	mSettingsButton(ResourceManager::getFont(), SETTINGS_TEXT, TEXT_SIZE),
+	mQuitButton(ResourceManager::getFont(), QUIT_TEXT, TEXT_SIZE)
 {
 	setBlokusButton();
 	setSettingsButton();
@@ -24,14 +23,15 @@ void Sidebar::resize() {
 }
 
 unsigned int Sidebar::getHeight() const {
-	return mWindowPtr->getSize().y;
+	return ResourceManager::getWindowPtr()->getSize().y;
 }
 
 void Sidebar::draw() {
-	mWindowPtr->draw(mBorder);
-	mWindowPtr->draw(mBlokusButton);
-	mWindowPtr->draw(mSettingsButton);
-	mWindowPtr->draw(mQuitButton);
+	const auto& windowPtr = ResourceManager::getWindowPtr();
+	windowPtr->draw(mBorder);
+	windowPtr->draw(mBlokusButton);
+	windowPtr->draw(mSettingsButton);
+	windowPtr->draw(mQuitButton);
 }
 
 void Sidebar::setBlokusButton() {

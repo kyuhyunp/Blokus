@@ -6,7 +6,7 @@
 
 class MenuScene : public Scene {
 public:
-    MenuScene(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr);
+    MenuScene();
     void draw() override;
     void update(const sf::Event& event) override;
 };

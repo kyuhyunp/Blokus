@@ -3,22 +3,18 @@
 
 #include <iostream>
 #include <memory>
-#include "Scene.h"
 #include "MenuScene.h"
 #include "SettingsScene.h"
 
-/*
-* Should be able to add Sidebar, Board, Pieces
-* 
-*/
+
+
+
 class GameEngine {
 public:
-    GameEngine(const sf::Font &font, const std::unique_ptr<sf::RenderWindow>& windowPtr);
+    GameEngine();
     void run();
 
 private:
-    const sf::Font& mFont;
-    const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
     std::shared_ptr<Scene> mCurrentScenePtr = nullptr;
 
     enum class SceneType{

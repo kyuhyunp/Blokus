@@ -2,8 +2,8 @@
 
 
 
-SettingsScene::SettingsScene(const sf::Font& font, const std::unique_ptr<sf::RenderWindow>& windowPtr)
-	: Scene(font, windowPtr) {
+SettingsScene::SettingsScene()
+	: Scene() {
 }
 
 
