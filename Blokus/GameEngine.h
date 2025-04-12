@@ -20,7 +20,7 @@ public:
 private:
     // Shared Resources
     const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
-    const sf::Font mFont;
+    const sf::Font &mFont;
     const ResourceManager& mResourceManager;
 
     // Member variables
