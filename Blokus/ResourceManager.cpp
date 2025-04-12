@@ -18,18 +18,12 @@ ResourceManager::ResourceManager() {
 	}
 }
 
-const std::unique_ptr<sf::RenderWindow>& ResourceManager::getWindowPtr() {
-	return getInstance().getWindowPtrImpl();
-}
-
-const std::unique_ptr<sf::RenderWindow>& ResourceManager::getWindowPtrImpl() {
+const std::unique_ptr<sf::RenderWindow>& ResourceManager::getWindowPtr() const{
 	return mWindowPtr;
 }
 
-const sf::Font& ResourceManager::getFont() {
-	return getInstance().getFontImpl();
-}
 
-const sf::Font& ResourceManager::getFontImpl() {
+
+const sf::Font& ResourceManager::getFont() const{
 	return mFont;
 }

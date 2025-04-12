@@ -2,10 +2,12 @@
 
 
 
-Sidebar::Sidebar()
-	: mBlokusButton(ResourceManager::getFont(), BLOKUS_TEXT, TEXT_SIZE),
-	mSettingsButton(ResourceManager::getFont(), SETTINGS_TEXT, TEXT_SIZE),
-	mQuitButton(ResourceManager::getFont(), QUIT_TEXT, TEXT_SIZE)
+Sidebar::Sidebar(const ResourceManager& resourceManager)
+	: mWindowPtr(resourceManager.getWindowPtr()), mFont(resourceManager.getFont()),
+	mResourceManager(resourceManager),
+	mBlokusButton(resourceManager.getFont(), BLOKUS_TEXT, TEXT_SIZE),
+	mSettingsButton(resourceManager.getFont(), SETTINGS_TEXT, TEXT_SIZE),
+	mQuitButton(resourceManager.getFont(), QUIT_TEXT, TEXT_SIZE)
 {
 	setBlokusButton();
 	setSettingsButton();
@@ -23,15 +25,14 @@ void Sidebar::resize() {
 }
 
 unsigned int Sidebar::getHeight() const {
-	return ResourceManager::getWindowPtr()->getSize().y;
+	return mWindowPtr->getSize().y;
 }
 
 void Sidebar::draw() {
-	const auto& windowPtr = ResourceManager::getWindowPtr();
-	windowPtr->draw(mBorder);
-	windowPtr->draw(mBlokusButton);
-	windowPtr->draw(mSettingsButton);
-	windowPtr->draw(mQuitButton);
+	mWindowPtr->draw(mBorder);
+	mWindowPtr->draw(mBlokusButton);
+	mWindowPtr->draw(mSettingsButton);
+	mWindowPtr->draw(mQuitButton);
 }
 
 void Sidebar::setBlokusButton() {
