@@ -6,7 +6,7 @@
 
 class SettingsScene : public Scene {
 public:
-    SettingsScene();
+    SettingsScene(Sidebar& sidebar, const ResourceManager& resourceManager);
     void draw() override;
     void update(const sf::Event& event) override;
 

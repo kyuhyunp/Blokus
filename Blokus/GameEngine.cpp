@@ -2,9 +2,13 @@
 
 
 
-GameEngine::GameEngine() {
-	const std::shared_ptr<MenuScene> menuScene = std::make_shared<MenuScene>();
-	const std::shared_ptr<SettingsScene> settingsScene = std::make_shared<SettingsScene>();
+GameEngine::GameEngine(const ResourceManager& resourceManager) 
+: mWindowPtr(resourceManager.getWindowPtr()), mFont(resourceManager.getFont()),
+mResourceManager(resourceManager), mSidebar(resourceManager){
+	const std::shared_ptr<MenuScene> menuScene = 
+		std::make_shared<MenuScene>(mSidebar, mResourceManager);
+	const std::shared_ptr<SettingsScene> settingsScene = 
+		std::make_shared<SettingsScene>(mSidebar, mResourceManager);
 
 	mScenePtrsByType.insert({ SceneType::Menu, menuScene});
 	mScenePtrsByType.insert({ SceneType::Settings, settingsScene });
@@ -14,10 +18,8 @@ GameEngine::GameEngine() {
 
 void GameEngine::run() {
 	// Get the scene
-	const std::unique_ptr<sf::RenderWindow>& windowPtr = ResourceManager::getWindowPtr();
-
-	while (windowPtr->isOpen()) {
-		while (const std::optional event = windowPtr->pollEvent()) {
+	while (mWindowPtr->isOpen()) {
+		while (const std::optional event = mWindowPtr->pollEvent()) {
 			if (!event.has_value()) {
 				continue;
 			}
@@ -37,10 +39,14 @@ void GameEngine::run() {
 			mCurrentScenePtr->update(event.value());
 		}
 		
-		windowPtr->clear(sf::Color::White);
-		mCurrentScenePtr->draw();
-		windowPtr->display();
+		render();
 	}
+}
+
+void GameEngine::render() {
+	mWindowPtr->clear(sf::Color::White);
+	mCurrentScenePtr->draw();
+	mWindowPtr->display();
 }
 
 

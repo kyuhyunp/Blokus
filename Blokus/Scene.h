@@ -7,13 +7,20 @@
 
 class Scene {
 public:
-	Scene();
+	Scene(Sidebar& sidebar, const ResourceManager& resourceManager);
 	virtual void update(const sf::Event& event);
 	virtual void draw();
 	void draw(const sf::Drawable& drawable);
 	
 
 private:
+	// Shared Resources
+	const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
+	const sf::Font mFont;
+	const ResourceManager& mResourceManager;
+
+	// Member variable
+	Sidebar& mSidebar;
 
 	// Resource access
 	unsigned int getHeight() const;

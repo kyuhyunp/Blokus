@@ -6,15 +6,16 @@
 
 class Sidebar {
 public:
-	// Static method to get the instance
-	static Sidebar& getInstance() {
-		static Sidebar instance;
-		return instance;
-	}
+	Sidebar(const ResourceManager& resourceManager);
+
+	// Delete copy constructor and assignment operator
+	Sidebar(const Sidebar&) = delete;
+	Sidebar& operator=(const Sidebar&) = delete;
 
 	void resize();
 	bool isWithinQuitButton(const sf::Vector2f& mousePos) const;
 	void draw();
+
 
 private:
 	// const variables
@@ -26,18 +27,16 @@ private:
 	const std::string SETTINGS_TEXT = "Settings";
 	const std::string QUIT_TEXT = "Quit";
 
+	// Shared Resources
+	const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
+	const sf::Font mFont;
+	const ResourceManager& mResourceManager;
+
 	// Member variables
 	sf::Text mBlokusButton;
 	sf::Text mSettingsButton;
 	sf::Text mQuitButton;
 	sf::RectangleShape mBorder;
-
-	// Private constructor
-	Sidebar();
-
-	// Delete copy constructor and assignment operator
-	Sidebar(const Sidebar&) = delete;
-	Sidebar& operator=(const Sidebar&) = delete;
 
 	// Helper methods
 	unsigned int getHeight() const;

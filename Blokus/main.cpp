@@ -1,9 +1,9 @@
 #include "GameEngine.h"
 
 
-
 int main() {
-	GameEngine engine;
+	ResourceManager resourceManager;
+	GameEngine engine(resourceManager);
 	engine.run();
 
 	return 0;

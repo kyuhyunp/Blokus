@@ -2,8 +2,8 @@
 
 
 
-SettingsScene::SettingsScene()
-	: Scene() {
+SettingsScene::SettingsScene(Sidebar& sidebar, const ResourceManager& resourceManager)
+	: Scene(sidebar, resourceManager) {
 }
 
 

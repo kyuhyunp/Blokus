@@ -8,14 +8,11 @@
 
 class ResourceManager {
 public:
+	ResourceManager();
 
-	static ResourceManager& getInstance() {
-		static ResourceManager instance;
-		return instance;
-	}
+	const std::unique_ptr<sf::RenderWindow>& getWindowPtr() const;
+	const sf::Font& getFont() const;
 
-	static const std::unique_ptr<sf::RenderWindow>& getWindowPtr();
-	static const sf::Font& getFont();
 
 	// Delete copy constructor and assignment operator
 	ResourceManager(const ResourceManager&) = delete;
@@ -25,14 +22,8 @@ public:
 private:
 	const std::string PROJECT_NAME = "Blokus";
 
-	ResourceManager();
-
 	sf::Font mFont;
 	std::unique_ptr<sf::RenderWindow> mWindowPtr;
-
-	const std::unique_ptr<sf::RenderWindow>& getWindowPtrImpl();
-	const sf::Font& getFontImpl();
-
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "MenuScene.h"
 
-MenuScene::MenuScene() : Scene() {}
+MenuScene::MenuScene(Sidebar& sidebar, const ResourceManager& resourceManager)
+	: Scene(sidebar, resourceManager) {}
 
 void MenuScene::draw() {
 	Scene::draw();
