@@ -1,6 +1,8 @@
+.vs/
 *.sln
 *.vcxproj
 *.vcxproj.*
+Blokus.slnLaunch.user
 
 **/Debug
 **/Release
@@ -11,7 +13,7 @@
 
 **/include
 **/packages
-**/BlokusTests
+packages.config
 
 ui_design/
 
