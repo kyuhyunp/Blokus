@@ -2,8 +2,8 @@
 
 
 
-Scene::Scene(Sidebar& sidebar, const ResourceManager& resourceManager)
-	: mWindowPtr(resourceManager.getWindowPtr()), mFont(resourceManager.getFont()),
+Scene::Scene(sf::RenderWindow& window, Sidebar& sidebar, const ResourceManager& resourceManager)
+	: mWindow(window), mFont(resourceManager.getFont()),
 	mResourceManager(resourceManager),
 	mSidebar(sidebar)
 {
@@ -11,7 +11,7 @@ Scene::Scene(Sidebar& sidebar, const ResourceManager& resourceManager)
 }
 
 unsigned int Scene::getHeight() const {
-	return mWindowPtr->getSize().y;
+	return mWindow.getSize().y;
 }
 
 void Scene::resize() {
@@ -29,19 +29,19 @@ void Scene::draw() {
 }
 
 void Scene::draw(const sf::Drawable &drawable) {
-	mWindowPtr->draw(drawable);
+	mWindow.draw(drawable);
 }
 
 void Scene::handleWindowClosure(const sf::Event& event) {
 	// Handle Close button
 	if (event.is<sf::Event::Closed>()) {
-		mWindowPtr->close();
+		mWindow.close();
 	}
 
 	// Handle Esc key pressed
 	if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
 		if (keyPressed->scancode == sf::Keyboard::Scancode::Escape) {
-			mWindowPtr->close();
+			mWindow.close();
 		}
 	}
 
@@ -53,7 +53,7 @@ void Scene::handleWindowClosure(const sf::Event& event) {
 
 		const auto mousePos = SFMLUtils::convertToVector2f(mousePressed->position); 
 		if (mSidebar.isWithinQuitButton(mousePos)) {
-			mWindowPtr->close();
+			mWindow.close();
 		}
 	}
 }
@@ -67,7 +67,7 @@ void Scene::handleHoverEffect(const sf::Event& event) {
 			sf::Cursor::createFromSystem(sf::Cursor::Type::Hand).value() :
 			sf::Cursor::createFromSystem(sf::Cursor::Type::Arrow).value();
 
-		mWindowPtr->setMouseCursor(cursor);
+		mWindow.setMouseCursor(cursor);
 	}
 }
 
@@ -79,7 +79,7 @@ void Scene::handleResizedWindow(const sf::Event& event) {
 			{ 0.0f, 0.0f },
 			{ static_cast<float>(resized->size.x), static_cast<float>(resized->size.y) }
 		);
-		mWindowPtr->setView(sf::View(visibleArea));
+		mWindow.setView(sf::View(visibleArea));
 	}
 }
 

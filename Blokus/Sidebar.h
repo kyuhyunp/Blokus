@@ -6,13 +6,13 @@
 
 class Sidebar {
 public:
-	Sidebar(const ResourceManager& resourceManager);
+	Sidebar(sf::RenderWindow& window, const ResourceManager& resourceManager);
 
 	// Delete copy constructor and assignment operator
 	Sidebar(const Sidebar&) = delete;
 	Sidebar& operator=(const Sidebar&) = delete;
 
-	void resize();
+	virtual void resize();
 	bool isWithinQuitButton(const sf::Vector2f& mousePos) const;
 	void draw();
 
@@ -28,7 +28,7 @@ private:
 	const std::string QUIT_TEXT = "Quit";
 
 	// Shared Resources
-	const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
+	sf::RenderWindow& mWindow;
 	const sf::Font &mFont;
 	const ResourceManager& mResourceManager;
 
@@ -44,7 +44,7 @@ private:
 	void setSettingsButton();
 	void setQuitButton();
 	void updateQuitButtonPosition();
-	void updateBorder();
+	virtual void updateBorder();
 };
 
 #endif

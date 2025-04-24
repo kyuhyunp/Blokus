@@ -23,7 +23,6 @@ private:
 	const std::string PROJECT_NAME = "Blokus";
 
 	sf::Font mFont;
-	std::unique_ptr<sf::RenderWindow> mWindowPtr;
 };
 
 #endif
