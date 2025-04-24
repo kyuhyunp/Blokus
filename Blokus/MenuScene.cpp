@@ -1,7 +1,7 @@
 #include "MenuScene.h"
 
-MenuScene::MenuScene(Sidebar& sidebar, const ResourceManager& resourceManager)
-	: Scene(sidebar, resourceManager) {}
+MenuScene::MenuScene(sf::RenderWindow& window, Sidebar& sidebar, const ResourceManager& resourceManager)
+	: Scene(window, sidebar, resourceManager) {}
 
 void MenuScene::draw() {
 	Scene::draw();

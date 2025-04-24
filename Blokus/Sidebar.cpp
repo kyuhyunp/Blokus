@@ -2,8 +2,8 @@
 
 
 
-Sidebar::Sidebar(const ResourceManager& resourceManager)
-	: mWindowPtr(resourceManager.getWindowPtr()), mFont(resourceManager.getFont()),
+Sidebar::Sidebar(sf::RenderWindow& window, const ResourceManager& resourceManager)
+	: mWindow(window), mFont(resourceManager.getFont()),
 	mResourceManager(resourceManager),
 	mBlokusButton(resourceManager.getFont(), BLOKUS_TEXT, TEXT_SIZE),
 	mSettingsButton(resourceManager.getFont(), SETTINGS_TEXT, TEXT_SIZE),
@@ -25,14 +25,14 @@ void Sidebar::resize() {
 }
 
 unsigned int Sidebar::getHeight() const {
-	return mWindowPtr->getSize().y;
+	return mWindow.getSize().y;
 }
 
 void Sidebar::draw() {
-	mWindowPtr->draw(mBorder);
-	mWindowPtr->draw(mBlokusButton);
-	mWindowPtr->draw(mSettingsButton);
-	mWindowPtr->draw(mQuitButton);
+	mWindow.draw(mBorder);
+	mWindow.draw(mBlokusButton);
+	mWindow.draw(mSettingsButton);
+	mWindow.draw(mQuitButton);
 }
 
 void Sidebar::setBlokusButton() {

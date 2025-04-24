@@ -4,10 +4,14 @@
 #include "Sidebar.h"
 #include "SFMLUtils.h"
 
+enum class SceneType {
+	Menu,
+	Settings
+};// TODO: make more types like Game, Settings, End
 
 class Scene {
 public:
-	Scene(Sidebar& sidebar, const ResourceManager& resourceManager);
+	Scene(sf::RenderWindow& window, Sidebar& sidebar, const ResourceManager& resourceManager);
 	virtual void update(const sf::Event& event);
 	virtual void draw();
 	void draw(const sf::Drawable& drawable);
@@ -15,7 +19,7 @@ public:
 
 private:
 	// Shared Resources
-	const std::unique_ptr<sf::RenderWindow>& mWindowPtr;
+	sf::RenderWindow& mWindow;
 	const sf::Font &mFont;
 	const ResourceManager& mResourceManager;
 

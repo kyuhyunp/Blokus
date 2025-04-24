@@ -1,10 +1,10 @@
-#include "GameEngine.h"
+#include "Application.h"
 
 
 int main() {
 	ResourceManager resourceManager;
-	GameEngine engine(resourceManager);
-	engine.run();
+	Application app(resourceManager);
+	app.run();
 
 	return 0;
 }

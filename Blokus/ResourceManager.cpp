@@ -1,28 +1,12 @@
 #include "ResourceManager.h"
 
 ResourceManager::ResourceManager() {
-#ifdef _DEBUG
-	mWindowPtr = std::make_unique<sf::RenderWindow>(sf::VideoMode({ 360, 600 },
-		sf::Style::Resize | sf::Style::Close),
-		PROJECT_NAME);
-#else
-	mWindowPtr = std::make_unique<sf::RenderWindow>(sf::VideoMode::getFullscreenModes()[0],
-		PROJECT_NAME, sf::State::Fullscreen);
-#endif
 
-	mWindowPtr->setVerticalSyncEnabled(true);
 
 	if (!mFont.openFromMemory(&helvetica_255_Helvetica_ttf, helvetica_255_Helvetica_ttf_len)) {
-		std::cerr << "Error loading font Helvetica\n";
-		exit(1);
+		throw std::runtime_error("Error while loading the font Helvetica.");
 	}
 }
-
-const std::unique_ptr<sf::RenderWindow>& ResourceManager::getWindowPtr() const{
-	return mWindowPtr;
-}
-
-
 
 const sf::Font& ResourceManager::getFont() const{
 	return mFont;
