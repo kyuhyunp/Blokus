@@ -1,22 +1,17 @@
 #include "Sidebar.h"
 
 
-
-Sidebar::Sidebar(sf::RenderWindow& window, const ResourceManager& resourceManager)
-	: mWindow(window), mFont(resourceManager.getFont()),
-	mResourceManager(resourceManager),
-	mBlokusButton(resourceManager.getFont(), BLOKUS_TEXT, TEXT_SIZE),
-	mSettingsButton(resourceManager.getFont(), SETTINGS_TEXT, TEXT_SIZE),
-	mQuitButton(resourceManager.getFont(), QUIT_TEXT, TEXT_SIZE)
+Sidebar::Sidebar(sf::RenderWindow& window, FontHolder& fonts) : 
+	mWindow(window), 
+	mFonts(fonts),
+	mBlokusButton(fonts.get(Fonts::Helvetica), BLOKUS_TEXT, TEXT_SIZE),
+	mSettingsButton(fonts.get(Fonts::Helvetica), SETTINGS_TEXT, TEXT_SIZE),
+	mQuitButton(fonts.get(Fonts::Helvetica), QUIT_TEXT, TEXT_SIZE)
 {
 	setBlokusButton();
 	setSettingsButton();
 	setQuitButton();
-	updateBorder();
-}
-
-bool Sidebar::isWithinQuitButton(const sf::Vector2f& mousePos) const {
-	return mQuitButton.getGlobalBounds().contains(mousePos);
+	setBorder();
 }
 
 void Sidebar::resize() {
@@ -24,15 +19,45 @@ void Sidebar::resize() {
 	updateBorder();
 }
 
-unsigned int Sidebar::getHeight() const {
-	return mWindow.getSize().y;
-}
-
 void Sidebar::draw() {
 	mWindow.draw(mBorder);
 	mWindow.draw(mBlokusButton);
 	mWindow.draw(mSettingsButton);
 	mWindow.draw(mQuitButton);
+}
+
+void Sidebar::update(const sf::Event& event) {
+	// Handle button touch
+	if (const auto* mouseMoved = event.getIf<sf::Event::MouseMoved>()) {
+		const auto mousePos = SFMLUtils::convertToVector2f(mouseMoved->position);
+
+		const auto cursor = isWithinQuitButton(mousePos) ?
+			sf::Cursor::createFromSystem(sf::Cursor::Type::Hand).value() :
+			sf::Cursor::createFromSystem(sf::Cursor::Type::Arrow).value();
+
+		mWindow.setMouseCursor(cursor);
+	}
+
+	// Handle button press
+	if (const auto* mousePressed = event.getIf<sf::Event::MouseButtonPressed>()) {
+		if (mousePressed->button != sf::Mouse::Button::Left) {
+			return;
+		}
+
+		const auto mousePos = SFMLUtils::convertToVector2f(mousePressed->position);
+		if (isWithinQuitButton(mousePos)) {
+			mWindow.close();
+		}
+	}
+}
+
+bool Sidebar::isWithinQuitButton(const sf::Vector2f& mousePos) const {
+	return mQuitButton.getGlobalBounds().contains(mousePos);
+}
+
+
+unsigned int Sidebar::getHeight() const {
+	return mWindow.getSize().y;
 }
 
 void Sidebar::setBlokusButton() {
@@ -65,8 +90,12 @@ void Sidebar::setQuitButton() {
 	updateQuitButtonPosition();
 }
 
-void Sidebar::updateBorder() {
+void Sidebar::setBorder() {
 	mBorder.setSize(sf::Vector2f(static_cast<float>(WIDTH), static_cast<float>(getHeight())));
 	mBorder.setPosition({ 0.f, 0.f });
 	mBorder.setFillColor(sf::Color(200, 200, 200, 128)); // Transparent gray
+}
+
+void Sidebar::updateBorder() {
+	mBorder.setSize(sf::Vector2f(static_cast<float>(WIDTH), static_cast<float>(getHeight())));
 }

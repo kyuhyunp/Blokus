@@ -6,11 +6,14 @@
 #include "MenuScene.h"
 #include "SettingsScene.h"
 #include "Sidebar.h"
+#include "ResourceIdentifiers.h"
+#include "ResourceHolder.h"
+
 
 class Application {
 
 public:
-    Application(const ResourceManager& mResourceManager);
+    Application(FontHolder &fonts);
     void run();
 
     // Delete copy constructor and assignment operator
@@ -20,8 +23,7 @@ public:
 private:
     // Shared Resources
     sf::RenderWindow mWindow;
-    const sf::Font& mFont;
-    const ResourceManager& mResourceManager;
+    FontHolder &mFonts;
 
     // Member variables
     Sidebar mSidebar;
@@ -30,6 +32,9 @@ private:
 
     void render();
     SceneType getScene(const sf::Event& event) const;
+
+    void handleResizedWindow(const sf::Event& event);
+    void handleWindowClosure(const sf::Event& event);
 };
 
 #endif 

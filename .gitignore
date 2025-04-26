@@ -31,4 +31,17 @@ sfml-system-d-3.dll
 sfml-window-3.dll
 sfml-window-d-3.dll
 
+BlokusTest/pch.pch
+
+
+// Optional
+Blokus/Common.h
+Blokus/Resource/Images/
+Blokus/RoundedRectangleShape.cpp
+Blokus/RoundedRectangleShape.h
+Blokus/World.cpp
+Blokus/World.h
+BlokusTest/gtest_main.cc
+     
+
 

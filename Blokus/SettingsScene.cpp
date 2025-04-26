@@ -2,8 +2,8 @@
 
 
 
-SettingsScene::SettingsScene(sf::RenderWindow& window, Sidebar& sidebar, const ResourceManager& resourceManager)
-	: Scene(window, sidebar, resourceManager) {
+SettingsScene::SettingsScene(sf::RenderWindow& window, FontHolder& fonts)
+	: Scene(window, fonts) {
 }
 
 
