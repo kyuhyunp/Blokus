@@ -1,45 +1,54 @@
 #include "Application.h"
 
-namespace Common {
-	static const std::string Blokus = "Blokus";
-}
+const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 
 Application::Application(FontHolder &fonts)
 	:
 #ifdef _DEBUG
-	mWindow(sf::VideoMode({ 360, 600 }, sf::Style::Resize | sf::Style::Close), Common::Blokus),
+	mWindow(sf::VideoMode({ 360, 600 }, sf::Style::Resize | sf::Style::Close), Texts::blokus),
 #else
-	mWindow(sf::VideoMode::getFullscreenModes()[0], Common::Blokus, sf::State::Fullscreen),
+	mWindow(sf::VideoMode::getFullscreenModes()[0], Texts::blokus, sf::State::Fullscreen),
 #endif
 mFonts(fonts),
 mSidebar(mWindow, fonts), 
 mCurrentScene(SceneType::Menu) {
 
-	const std::shared_ptr<MenuScene> menuScene =
-		std::make_shared<MenuScene>(mWindow, fonts);
-	const std::shared_ptr<SettingsScene> settingsScene =
-		std::make_shared<SettingsScene>(mWindow, fonts);
+	std::unique_ptr<MenuScene> menuScene(new MenuScene(mWindow, fonts));
+	std::unique_ptr<SettingsScene> settingsScene(new SettingsScene(mWindow, fonts));
 
-	mScenePtrsByType.insert({ SceneType::Menu, menuScene });
-	mScenePtrsByType.insert({ SceneType::Settings, settingsScene });
+	mScenePtrsByType.insert({ SceneType::Menu, std::move(menuScene) });
+	mScenePtrsByType.insert({ SceneType::Settings, std::move(settingsScene) });
 }
 
 void Application::run() {
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
 	while (mWindow.isOpen()) {
-		while (const std::optional possibleEvent = mWindow.pollEvent()) {
-			if (!possibleEvent.has_value()) {
-				continue;
-			}
-			sf::Event event = possibleEvent.value();
-			handleWindowClosure(event);
-			handleResizedWindow(event);
+		sf::Time timeElapsed = clock.restart();
+		timeSinceLastUpdate += timeElapsed;
+		while (timeSinceLastUpdate > TimePerFrame) {
+			timeSinceLastUpdate -= TimePerFrame;
 
-			mSidebar.update(event);
-			mCurrentScene = getScene(event);
-			mScenePtrsByType.at(mCurrentScene)->update(event);
+			processEvents();
 		}
-
+		
 		render();
+	}
+}
+
+void Application::processEvents() {
+	while (const std::optional possibleEvent = mWindow.pollEvent()) {
+		if (!possibleEvent.has_value()) {
+			continue;
+		}
+		sf::Event event = possibleEvent.value();
+
+		handleWindowClosure(event);
+		handleResizedWindow(event);
+
+		mSidebar.update(event);
+		mCurrentScene = getScene(event);
+		mScenePtrsByType.at(mCurrentScene)->update(event);
 	}
 }
 

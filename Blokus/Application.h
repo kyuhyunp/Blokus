@@ -8,7 +8,7 @@
 #include "Sidebar.h"
 #include "ResourceIdentifiers.h"
 #include "ResourceHolder.h"
-
+#include "Common.h"
 
 class Application {
 
@@ -21,15 +21,18 @@ public:
     Application& operator=(const Application&) = delete;
 
 private:
+    static const sf::Time TimePerFrame;
+
     // Shared Resources
     sf::RenderWindow mWindow;
     FontHolder &mFonts;
 
     // Member variables
     Sidebar mSidebar;
-    SceneType mCurrentScene = SceneType::Menu;
-    std::unordered_map<SceneType, const std::shared_ptr<Scene>> mScenePtrsByType;
+    SceneType mCurrentScene;
+    std::unordered_map<SceneType, std::unique_ptr<Scene>> mScenePtrsByType;
 
+    void processEvents();
     void render();
     SceneType getScene(const sf::Event& event) const;
 

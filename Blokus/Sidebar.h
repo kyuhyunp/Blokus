@@ -19,13 +19,22 @@ public:
 	void resize();
 	void draw();
 	void update(const sf::Event& event);
-	bool isWithinQuitButton(const sf::Vector2f& mousePos) const;
+
+	virtual bool isWithinQuitButton(const sf::Vector2f& mousePos) const;
+
+	const unsigned int getWidth() const;
+	const float getButtonSpacing() const;
+
+
+	// Get Button Boundaries
+	const sf::FloatRect getQuitButtonBoundary() const;
+
 
 
 private:
 	// const variables
-	const int WIDTH = 150;
-	const int TEXT_SIZE = 15;
+	const unsigned int WIDTH = 150;
+	const unsigned int TEXT_SIZE = 15;
 	const float BUTTON_SPACING = 50.0f;
 
 	const std::string BLOKUS_TEXT = "Blokus";

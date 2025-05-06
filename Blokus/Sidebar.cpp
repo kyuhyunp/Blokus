@@ -55,6 +55,18 @@ bool Sidebar::isWithinQuitButton(const sf::Vector2f& mousePos) const {
 	return mQuitButton.getGlobalBounds().contains(mousePos);
 }
 
+const sf::FloatRect Sidebar::getQuitButtonBoundary() const {
+	return mQuitButton.getGlobalBounds();
+}
+
+const unsigned int Sidebar::getWidth() const {
+	return WIDTH;
+}
+
+const float Sidebar::getButtonSpacing() const {
+	return BUTTON_SPACING;
+}
+
 
 unsigned int Sidebar::getHeight() const {
 	return mWindow.getSize().y;
@@ -64,7 +76,7 @@ void Sidebar::setBlokusButton() {
 	mBlokusButton.setFillColor(sf::Color::Black);
 	mBlokusButton.setStyle(sf::Text::Bold);
 
-	sf::FloatRect dimension = mBlokusButton.getGlobalBounds();
+	sf::FloatRect dimension = mBlokusButton.getLocalBounds();
 	mBlokusButton.setOrigin({ dimension.size.x / 2.0f, dimension.size.y / 2.0f });
 	mBlokusButton.setPosition({ WIDTH / 2.0f, BUTTON_SPACING });
 }
@@ -72,20 +84,20 @@ void Sidebar::setBlokusButton() {
 void Sidebar::setSettingsButton() {
 	mSettingsButton.setFillColor(sf::Color::Black);
 
-	sf::FloatRect dimension = mSettingsButton.getGlobalBounds();
+	sf::FloatRect dimension = mSettingsButton.getLocalBounds();
 	mSettingsButton.setOrigin({ dimension.size.x / 2.0f, dimension.size.y / 2.0f });
-	mSettingsButton.setPosition({ WIDTH / 2.0f, BUTTON_SPACING * 2 });
+	mSettingsButton.setPosition({ WIDTH / 2.0f, getButtonSpacing() * 2 });
 }
 
 void Sidebar::updateQuitButtonPosition() {
-	float height = (BUTTON_SPACING * 3 < getHeight() - BUTTON_SPACING) ? getHeight() - 50.f : 150.f;
+	float height = (getButtonSpacing() * 3 < getHeight() - getButtonSpacing()) ? getHeight() - getButtonSpacing() : getButtonSpacing() * 3;
 	mQuitButton.setPosition({ WIDTH / 2.0f, height});
 }
 
 void Sidebar::setQuitButton() {
 	mQuitButton.setFillColor(sf::Color::Black);
 
-	sf::FloatRect dimension = mQuitButton.getGlobalBounds();
+	sf::FloatRect dimension = mQuitButton.getLocalBounds();
 	mQuitButton.setOrigin({ dimension.size.x / 2.0f, dimension.size.y / 2.0f });
 	updateQuitButtonPosition();
 }
